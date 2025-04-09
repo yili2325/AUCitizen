@@ -7,10 +7,12 @@ const mongoose = require('mongoose');
 // Ensure database connection
 const connectDB = async () => {
     try {
-        await mongoose.connect('mongodb://localhost:27017/auscitizen', {
+        await mongoose.connect(process.env.MONGO_URI, {
+            dbName: 'auscitizen', // ⬅️ explicitly set it
             useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
+            useUnifiedTopology: true,
+          });
+          
         console.log('MongoDB Connected');
     } catch (err) {
         console.error('MongoDB connection error:', err);
@@ -128,10 +130,12 @@ router.get('/practice', async (req, res) => {
         // Ensure database connection
         if (mongoose.connection.readyState !== 1) {
             console.log('Database connection not ready, attempting to connect...');
-            await mongoose.connect('mongodb://localhost:27017/auscitizen', {
+            await mongoose.connect(process.env.MONGO_URI, {
+                dbName: 'auscitizen', // ⬅️ explicitly set it
                 useNewUrlParser: true,
-                useUnifiedTopology: true
-            });
+                useUnifiedTopology: true,
+              });
+              
             console.log('MongoDB Connected');
         }
 
@@ -487,10 +491,12 @@ router.get('/categories', async (req, res) => {
         // Ensure database connection
         if (mongoose.connection.readyState !== 1) {
             console.log('Database connection not ready in categories endpoint, attempting to connect...');
-            await mongoose.connect('mongodb://localhost:27017/auscitizen', {
+            await mongoose.connect(process.env.MONGO_URI, {
+                dbName: 'auscitizen', // ⬅️ explicitly set it
                 useNewUrlParser: true,
-                useUnifiedTopology: true
-            });
+                useUnifiedTopology: true,
+              });
+              
             console.log('MongoDB Connected');
         }
 
