@@ -24,12 +24,27 @@ const connectDB = async () => {
   console.log(`🌐 Connecting to: ${uri}`);
 
   try {
+    // Extract the database name from the URI or default to 'auscitizen'
+    let dbName = 'auscitizen';
+    try {
+      const urlParts = uri.split('/');
+      if (urlParts.length > 3) {
+        const dbPart = urlParts[3].split('?')[0];
+        if (dbPart && dbPart.length > 0) {
+          dbName = dbPart;
+        }
+      }
+    } catch (error) {
+      console.log('Error parsing database name, using default: auscitizen');
+    }
+    
     const conn = await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
       maxPoolSize: 10,
+      dbName: dbName // Explicitly set the database name
     });
 
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
